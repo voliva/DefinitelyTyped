@@ -13,7 +13,7 @@ export interface TranslateOptions<TTranslateFuncName extends string = string> {
     i18n?: I18n;
 }
 
-export interface TranslateHocProps {
+export interface WithNamespacesHocProps {
     i18n?: I18n;
     initialI18nStore?: object;
     initialLanguage?: string;
@@ -24,21 +24,21 @@ type Omit<T, K extends keyof T> = Pick<T, ({ [P in keyof T]: P } & { [P in K]: n
 
 type InjectedProps = InjectedI18nProps & InjectedTranslateProps;
 
-export interface WrapperComponentClass<P = {}, PWrapped = {}> extends React.ComponentClass<P & TranslateHocProps> {
-    new (props: P, context?: any): React.Component<P & TranslateHocProps, React.ComponentState> & { getWrappedInstance(): React.Component<PWrapped> };
+export interface WrapperComponentClass<P = {}, PWrapped = {}> extends React.ComponentClass<P & WithNamespacesHocProps> {
+    new (props: P, context?: any): React.Component<P & WithNamespacesHocProps, React.ComponentState> & { getWrappedInstance(): React.Component<PWrapped> };
 }
 
 // Injects props and removes them from the prop requirements.
 // Adds the new properties t (or whatever the translation function is called) and i18n if needed.
 export type InferableComponentEnhancerWithProps<TTranslateFunctionName extends string> =
     <P extends { [key: string]: any }>(component: React.ComponentClass<P> | React.StatelessComponent<P>) =>
-        React.ComponentClass<Omit<P, keyof InjectedI18nProps | TTranslateFunctionName> & TranslateHocProps>;
+        React.ComponentClass<Omit<P, keyof InjectedI18nProps | TTranslateFunctionName> & WithNamespacesHocProps>;
 
 export type InferableComponentEnhancerWithPropsAndRef<TTranslateFunctionName extends string> =
     <P extends { [key: string]: any }>(component: React.ComponentClass<P> | React.StatelessComponent<P>) =>
         WrapperComponentClass<Omit<P, keyof InjectedI18nProps | TTranslateFunctionName>, P>;
 
-export interface Translate {
+export interface WithNamespaces {
     <TNamespace extends string>
     (namespaces?: TNamespace | TNamespace[], options?: Omit<TranslateOptions, "translateFuncName"> & { withRef?: false }):
         InferableComponentEnhancerWithProps<"t">;
@@ -59,5 +59,5 @@ export interface Translate {
     setI18n: typeof setI18n;
 }
 
-declare const translate: Translate;
-export default translate;
+declare const withNamespaces: WithNamespaces;
+export default withNamespaces;

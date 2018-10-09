@@ -4,6 +4,10 @@ import { i18n, TranslationFunction } from "i18next";
 export interface Options {
     i18n: i18n;
     t: TranslationFunction;
+    react_i18n: {
+        language: any // TODO https://github.com/i18next/react-i18next/pull/511/files
+    },
+    ready: any // TODO https://github.com/i18next/react-i18next/pull/511/files
 }
 
 export interface i18nProps {

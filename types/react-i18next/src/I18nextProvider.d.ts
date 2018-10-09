@@ -7,6 +7,8 @@ export interface I18nextProviderProps {
     initialI18nStore?: any;
     initialLanguage?: string;
     children: React.ReactNode;
+    defaultNS?: string; // TODO https://github.com/i18next/react-i18next/pull/478/files
+    reportNS?: () => void; // TODO https://github.com/i18next/react-i18next/pull/500/files
 }
 
 export default class I18nextProvider extends React.Component<I18nextProviderProps> { }
